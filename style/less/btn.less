@@ -1,4 +1,6 @@
+@btn-red:  #cb4335;
 @btn-green: #52be80;
+@btn-blue: #2e86c1;
 @input-border-color-focus: #2980B9;
 
 .btn {
@@ -55,7 +57,38 @@
 }
 
 
-// Colors
+//// Colors
+
+// Red
+
+.btn.btn-filled.btn-red {
+    background: @btn-red;
+
+    &:hover {
+        background: lighten(@btn-red, -9%);;
+    }
+}
+
+.btn.btn-outline.btn-red {
+
+    border-color: @btn-red;
+    color: @btn-red;
+
+    background-color: #FFF;
+
+    &:hover {
+        background: @btn-red;
+        border-color: @btn-red;
+        color: #FFF;
+    }
+}
+
+.btn.btn-link.btn-red {
+    color: @btn-red;
+}
+
+
+// Green
 
 .btn.btn-filled.btn-green {
     background: @btn-green;
@@ -84,26 +117,28 @@
 }
 
 
-.btn.btn-filled.btn-green {
-    background: @btn-green;
+// Blue
+
+.btn.btn-filled.btn-blue {
+    background: @btn-blue;
 
     &:hover {
-        background: lighten(@btn-green, -9%);;
+        background: lighten(@btn-blue, -9%);;
     }
 }
 
-.btn.btn-outline.btn-green {
+.btn.btn-outline.btn-blue {
     background-color: #FFF;
-    border-color: @btn-green;
-    color: @btn-green;
+    border-color: @btn-blue;
+    color: @btn-blue;
 
     &:hover {
-        background: @btn-green;
-        border-color: @btn-green;
+        background: @btn-blue;
+        border-color: @btn-blue;
         color: #FFF;
     }
 }
 
-.btn.btn-link.btn-green {
-    color: @btn-green;
+.btn.btn-link.btn-blue {
+    color: @btn-blue;
 }
