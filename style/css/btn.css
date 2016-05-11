@@ -1,0 +1,79 @@
+.btn {
+	display: inline-block;
+	position: relative;
+	text-align: center;
+}
+
+.btn:focus {
+	outline: #2980b9 dotted 1px;
+}
+
+.btn[disabled] {
+	cursor: default!important;
+}
+
+.btn-filled {
+	border: 0;
+	color: #FFF;
+	padding: .625rem 1rem;
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+
+.btn-filled[disabled] {
+	background: #CCC!important;
+}
+
+.btn-outline {
+	padding: .5rem .875rem;
+	border-width: .125rem;
+	border-style: solid;
+	-webkit-transition: background .2s,color .2s;
+	transition: background .2s,color .2s;
+}
+
+.btn-outline[disabled] {
+	border-color: #CCC!important;
+	background: #FFF!important;
+	color: #CCC!important;
+}
+
+.btn-link {
+	border: 0;
+	padding: .625rem 1rem;
+	background: #FFF;
+}
+
+.btn-link:hover {
+	text-decoration: underline;
+}
+
+.btn-link[disabled] {
+	color: #CCC!important;
+	text-decoration: none!important;
+}
+
+.btn.btn-filled.btn-green {
+	background: #52be80;
+}
+
+.btn.btn-filled.btn-green:hover {
+	background: #3ea469;
+}
+
+.btn.btn-outline.btn-green {
+	border-color: #52be80;
+	color: #52be80;
+	background-color: #FFF;
+}
+
+.btn.btn-outline.btn-green:hover {
+	background: #52be80;
+	border-color: #52be80;
+	color: #FFF;
+}
+
+.btn.btn-link.btn-green {
+	color: #52be80;
+}
+

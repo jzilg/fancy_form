@@ -11,7 +11,7 @@ var gulp      = require('gulp'),
 
 var cssDest    = 'style/css/',
     lessDest   = 'style/less/'
-    cssMinName = 'style.min.css'
+    cssMinName = 'form.min.css'
 ;
 
 gulp.task('css', function() {
@@ -42,6 +42,6 @@ gulp.task('css-min', function() {
     gulp.src(cssDest + '*.css')
         .pipe(concat(cssMinName))
         .pipe(minifyCSS({keepSpecialComments: '0'}))
-        //.pipe(rename(cssMinName))
+        .pipe(rename(cssMinName))
         .pipe(gulp.dest(cssDest));
 });

@@ -1,6 +1,7 @@
 .checkbox:before,
 .radiobtn:before {
 	margin-right: .188rem;
+	vertical-align: middle;
 }
 
 .checkbox,
@@ -183,29 +184,6 @@ select {
 
 textarea {
 	min-height: 10em;
-}
-
-button {
-	border: 0;
-	padding: .625rem 1rem;
-	font-size: 1em;
-	-webkit-transition: background .2s;
-	transition: background .2s;
-	background: #27AE60;
-	color: #FFF;
-}
-
-button:focus {
-	outline: #2980b9 dotted 1px;
-}
-
-button:hover {
-	background: #1E8449;
-}
-
-button[disabled] {
-	background: #CCC;
-	cursor: default;
 }
 
 .error-msg {

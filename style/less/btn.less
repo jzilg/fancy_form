@@ -1,0 +1,109 @@
+@btn-green: #52be80;
+@input-border-color-focus: #2980B9;
+
+.btn {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+
+    &:focus {
+        outline: 1px dotted @input-border-color-focus;
+    }
+
+    &[disabled] {
+        cursor: default !important;
+    }
+}
+
+.btn-filled {
+    border: 0;
+    color: #FFF;
+    padding: .625rem 1rem;
+    transition: background .2s;
+
+    &[disabled] {
+        background: #CCC !important;
+    }
+}
+
+.btn-outline {
+    padding: .5rem .875rem;
+    border-width: .125rem;
+    border-style: solid;
+    transition: background .2s, color .2s;
+
+    &[disabled] {
+        border-color: #CCC !important;
+        background: #FFF !important;
+        color: #CCC !important;
+    }
+}
+
+.btn-link {
+    border: 0;
+    padding: .625rem 1rem;
+    background: #FFF;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &[disabled] {
+        color: #CCC !important;
+        text-decoration: none !important;
+    }
+}
+
+
+// Colors
+
+.btn.btn-filled.btn-green {
+    background: @btn-green;
+
+    &:hover {
+        background: lighten(@btn-green, -9%);;
+    }
+}
+
+.btn.btn-outline.btn-green {
+
+    border-color: @btn-green;
+    color: @btn-green;
+
+    background-color: #FFF;
+
+    &:hover {
+        background: @btn-green;
+        border-color: @btn-green;
+        color: #FFF;
+    }
+}
+
+.btn.btn-link.btn-green {
+    color: @btn-green;
+}
+
+
+.btn.btn-filled.btn-green {
+    background: @btn-green;
+
+    &:hover {
+        background: lighten(@btn-green, -9%);;
+    }
+}
+
+.btn.btn-outline.btn-green {
+    background-color: #FFF;
+    border-color: @btn-green;
+    color: @btn-green;
+
+    &:hover {
+        background: @btn-green;
+        border-color: @btn-green;
+        color: #FFF;
+    }
+}
+
+.btn.btn-link.btn-green {
+    color: @btn-green;
+}
