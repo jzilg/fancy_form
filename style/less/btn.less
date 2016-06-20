@@ -48,8 +48,13 @@
     padding: .625rem 1rem;
     background: #FFF;
 
-    &:hover {
+    &:active {
         text-decoration: underline;
+    }
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &[disabled] {
@@ -66,8 +71,14 @@
 .btn.btn-filled.btn-red {
     background: @btn-red;
 
-    &:hover {
+    &:active {
         background: lighten(@btn-red, -9%);;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: lighten(@btn-red, -9%);;
+        }
     }
 }
 
@@ -78,10 +89,18 @@
 
     background-color: #FFF;
 
-    &:hover {
+    &:active {
         background: @btn-red;
         border-color: @btn-red;
         color: #FFF;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: @btn-red;
+            border-color: @btn-red;
+            color: #FFF;
+        }
     }
 }
 
@@ -95,8 +114,14 @@
 .btn.btn-filled.btn-green {
     background: @btn-green;
 
-    &:hover {
+    &:active {
         background: lighten(@btn-green, -9%);;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: lighten(@btn-green, -9%);;
+        }
     }
 }
 
@@ -107,10 +132,18 @@
 
     background-color: #FFF;
 
-    &:hover {
+    &:active {
         background: @btn-green;
         border-color: @btn-green;
         color: #FFF;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: @btn-green;
+            border-color: @btn-green;
+            color: #FFF;
+        }
     }
 }
 
@@ -124,8 +157,14 @@
 .btn.btn-filled.btn-blue {
     background: @btn-blue;
 
-    &:hover {
+    &:active {
         background: lighten(@btn-blue, -9%);;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: lighten(@btn-blue, -9%);;
+        }
     }
 }
 
@@ -134,10 +173,18 @@
     border-color: @btn-blue;
     color: @btn-blue;
 
-    &:hover {
+    &:active {
         background: @btn-blue;
         border-color: @btn-blue;
         color: #FFF;
+    }
+
+    @media only screen and (min-width: 1140px) {
+        &:hover {
+            background: @btn-blue;
+            border-color: @btn-blue;
+            color: #FFF;
+        }
     }
 }
 
