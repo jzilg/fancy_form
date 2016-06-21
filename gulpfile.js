@@ -4,9 +4,7 @@ var gulp      = require('gulp'),
     concat    = require('gulp-concat'),
     less      = require('gulp-less'),
     minifyCSS = require('gulp-minify-css'),
-    rename    = require('gulp-rename'),
-    uglifyJS  = require('gulp-uglify'),
-    util      = require('gulp-util')
+    rename    = require('gulp-rename')
 ;
 
 var cssDest    = 'style/css/',
