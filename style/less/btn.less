@@ -6,8 +6,11 @@
 .btn {
     display: inline-block;
     position: relative;
+    padding: .625rem 1rem;
+    border-width: .125rem;
+    border-style: solid;
     text-align: center;
-    line-height: 1;
+    line-height: normal;
     user-select: none;
 
     &:focus {
@@ -20,9 +23,8 @@
 }
 
 .btn-filled {
-    border: 0;
+    border-color: transparent;
     color: #FFF;
-    padding: .625rem 1rem;
     transition: background .2s;
 
     &[disabled] {
@@ -31,9 +33,7 @@
 }
 
 .btn-outline {
-    padding: .5rem .875rem;
-    border-width: .125rem;
-    border-style: solid;
+    background-color: #FFF;
     transition: background .2s, color .2s;
 
     &[disabled] {
@@ -44,8 +44,7 @@
 }
 
 .btn-link {
-    border: 0;
-    padding: .625rem 1rem;
+    border-color: transparent;
     background: #FFF;
 
     &:active {
@@ -72,22 +71,19 @@
     background: @btn-red;
 
     &:active {
-        background: lighten(@btn-red, -9%);;
+        background: lighten(@btn-red, -9%);
     }
 
     @media only screen and (min-width: 1140px) {
         &:hover {
-            background: lighten(@btn-red, -9%);;
+            background: lighten(@btn-red, -9%);
         }
     }
 }
 
 .btn.btn-outline.btn-red {
-
     border-color: @btn-red;
     color: @btn-red;
-
-    background-color: #FFF;
 
     &:active {
         background: @btn-red;
@@ -115,22 +111,19 @@
     background: @btn-green;
 
     &:active {
-        background: lighten(@btn-green, -9%);;
+        background: lighten(@btn-green, -9%);
     }
 
     @media only screen and (min-width: 1140px) {
         &:hover {
-            background: lighten(@btn-green, -9%);;
+            background: lighten(@btn-green, -9%);
         }
     }
 }
 
 .btn.btn-outline.btn-green {
-
     border-color: @btn-green;
     color: @btn-green;
-
-    background-color: #FFF;
 
     &:active {
         background: @btn-green;
@@ -158,18 +151,17 @@
     background: @btn-blue;
 
     &:active {
-        background: lighten(@btn-blue, -9%);;
+        background: lighten(@btn-blue, -9%);
     }
 
     @media only screen and (min-width: 1140px) {
         &:hover {
-            background: lighten(@btn-blue, -9%);;
+            background: lighten(@btn-blue, -9%);
         }
     }
 }
 
 .btn.btn-outline.btn-blue {
-    background-color: #FFF;
     border-color: @btn-blue;
     color: @btn-blue;
 
