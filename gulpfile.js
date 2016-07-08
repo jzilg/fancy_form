@@ -1,16 +1,16 @@
-var gulp      = require('gulp'),
-    prefix    = require('gulp-autoprefixer'),
-    cmq       = require('gulp-combine-media-queries')
-    concat    = require('gulp-concat'),
-    less      = require('gulp-less'),
-    minifyCSS = require('gulp-minify-css'),
-    rename    = require('gulp-rename')
-;
+var gulp      = require('gulp');
+var prefix    = require('gulp-autoprefixer');
+var cmq       = require('gulp-combine-media-queries');
+var concat    = require('gulp-concat');
+var less      = require('gulp-less');
+var minifyCSS = require('gulp-minify-css');
+var rename    = require('gulp-rename');
+var uglifyJS  = require('gulp-uglify');
+var util      = require('gulp-util');
 
-var cssDest    = 'style/css/',
-    lessDest   = 'style/less/'
-    cssMinName = 'form.min.css'
-;
+var cssDest    = 'style/css/';
+var lessDest   = 'style/less/';
+var cssMinName = 'form.min.css';
 
 gulp.task('css', function() {
 
@@ -42,4 +42,21 @@ gulp.task('css-min', function() {
         .pipe(minifyCSS({keepSpecialComments: '0'}))
         .pipe(rename(cssMinName))
         .pipe(gulp.dest(cssDest));
+});
+
+var jsDest = 'js/';
+var jsFiles = [
+    'form',
+    'validator'
+];
+
+gulp.task('js-min', function() {
+
+    for (var i = 0; i < jsFiles.length; i++) {
+        gulp.src(jsDest + jsFiles[i] + '.js')
+            .pipe(gulp.dest(jsDest))
+            .pipe(rename(jsFiles[i] + '.min.js'))
+            .pipe(uglifyJS())
+            .pipe(gulp.dest(jsDest));
+    }
 });
