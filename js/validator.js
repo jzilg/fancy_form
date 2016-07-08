@@ -2,8 +2,9 @@
     $.fn.validate = function(newConfig) {
         'use strict';
 
-        var $roots = $('html', 'body'),
-            config = {
+        window.validator = [];
+        var $roots = $('html', 'body');
+        var config = {
             disableOnSubmit: true,
             rules: {
                 required: {
@@ -31,15 +32,18 @@
                 }
             }
         };
+        if (newConfig !== 'undefined') $.extend(true, config, newConfig);
 
-        if (newConfig !== 'undefined')
-            $.extend(true, config, newConfig);
-
-        return this.each(function() {
+        return this.each(function(idx) {
 
             var $form   = $(this),
                 isValid = true,
                 $inputs = $form.find(':input[data-validate]');
+
+            window.validator[idx] = {
+                jQuery: $form,
+                valide: false
+            };
 
             $form.attr('novalidate', '');
 
@@ -49,10 +53,16 @@
                     validateInput($(this));
                 });
 
-                isValid = (!$form.find('.validation-error').length);
+                isValid = (!$form.find('div.validation-error').length);
 
                 if (config.disableOnSubmit && isValid)
                     $form.find('button, input[type="submit"]').attr('disabled', 'disabled');
+
+                if (isValid) {
+                    if (typeof config.onSuccess == 'function') config.onSuccess();
+                } else {
+                    if (typeof config.onFail == 'function') config.onFail();
+                }
 
                 return isValid;
             });

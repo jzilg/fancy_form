@@ -88,13 +88,20 @@
     </form>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <!--<script src="https://rawgit.com/jzilg/frontend_base/master/js/validator.js"></script>
-    <script src="https://rawgit.com/jzilg/frontend_base/master/js/form.js"></script>-->
+    <!--<script src="https://rawgit.com/jzilg/frontend_base/master/js/validator.min.js"></script>
+    <script src="https://rawgit.com/jzilg/frontend_base/master/js/form.min.js"></script>-->
     <script src="../js/validator.js"></script>
     <script src="../js/form.js"></script>
     <script type="text/javascript">
 
-        $('form.validate').validate();
+        $('form.validate').validate({
+            onSuccess: function() {
+                console.log('everything is fine');
+            },
+            onFail: function() {
+                console.log('something is missing');
+            }
+        });
 
     </script>
 </body>
