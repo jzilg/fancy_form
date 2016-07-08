@@ -215,7 +215,7 @@
             }
 
             function unbindChange($input, event) {
-                $input.unbind(event + '.validate');
+                $input.off(event + '.validate');
             }
         });
     }
