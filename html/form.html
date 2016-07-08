@@ -94,14 +94,20 @@
     <script src="../js/form.js"></script>
     <script type="text/javascript">
 
-        $('form.validate').validate({
+        var $form = $('form.validate');
+
+        $form.validate({
             onSuccess: function() {
                 console.log('everything is fine');
+                console.log($form.data('isValid'));
             },
             onFail: function() {
                 console.log('something is missing');
+                console.log($form.data('isValid'));
             }
         });
+        
+        console.log($form.data('isValid'));
 
     </script>
 </body>

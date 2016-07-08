@@ -40,6 +40,8 @@
                 isValid = true,
                 $inputs = $form.find(':input[data-validate]');
 
+            $form.data('isValid', false);
+
             window.validator[idx] = {
                 jQuery: $form,
                 valide: false
@@ -54,6 +56,8 @@
                 });
 
                 isValid = (!$form.find('div.validation-error').length);
+
+                $form.data('isValid', isValid);
 
                 if (config.disableOnSubmit && isValid)
                     $form.find('button, input[type="submit"]').attr('disabled', 'disabled');
