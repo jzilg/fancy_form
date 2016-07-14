@@ -3,7 +3,7 @@
         'use strict';
 
         window.validator = [];
-        var $roots = $('html', 'body');
+        var $roots = $('html, body');
         var config = {
             disableOnSubmit: true,
             rules: {
@@ -36,9 +36,9 @@
 
         return this.each(function(idx) {
 
-            var $form   = $(this),
-                isValid = true,
-                $inputs = $form.find(':input[data-validate]');
+            var $form   = $(this);
+            var isValid = true;
+            var $inputs = $form.find(':input[data-validate]');
 
             $form.data('isValid', false);
 
@@ -55,7 +55,7 @@
                     validateInput($(this));
                 });
 
-                isValid = (!$form.find('div.validation-error').length);
+                isValid = (!$form.find('.validation-error').length);
 
                 $form.data('isValid', isValid);
 
@@ -66,6 +66,7 @@
                     if (typeof config.onSuccess == 'function') config.onSuccess();
                 } else {
                     if (typeof config.onFail == 'function') config.onFail();
+                    scrollToFirstError();
                 }
 
                 return isValid;
@@ -73,9 +74,9 @@
 
             function validateInput($input) {
 
-                var rule    = $input.data('validate'),
-                    compare = $input.data('compare'),
-                    event   = 'change';
+                var rule    = $input.data('validate');
+                var compare = $input.data('compare');
+                var event   = 'change';
 
                 if ($input.is('[type="checkbox"]')) {
                     validateCheckbox($input, rule, event);
@@ -88,18 +89,17 @@
                     }
                 }
 
-                if (compare)
-                    compareInputs($input, compare, event);
+                if (compare) compareInputs($input, compare, event);
             }
 
             function validateTextInput($input, rule, event) {
 
-                var value = $input.val(),
-                    rules = rule.split(' ');
+                var value = $input.val();
+                var rules = rule.split(' ');
 
                 for (var i in rules) {
-                    var rule = rules[i],
-                        msg  = '';
+                    var rule = rules[i];
+                    var msg  = '';
 
                     if (rule === '') rule = 'required';
 
@@ -123,9 +123,9 @@
 
                 if (!$input.is(':checked')) {
                     var msg = config.rules[rule].msg;
-                    createError($input, msg, 'change');
+                    createError($input, msg, event);
                 } else {
-                    removeError($input, 'change');
+                    removeError($input, event);
                 }
             }
 
@@ -133,8 +133,8 @@
 
                 if (rule === '') rule = 'radio';
 
-                var isChecked = false,
-                    name      = $input.attr('name');
+                var isChecked = false;
+                var name      = $input.attr('name');
 
                 $form.find('input[name="'+name+'"]').each(function() {
                     if ($(this).is(':checked')) {
@@ -153,12 +153,12 @@
 
             function compareInputs($input, compareWith, event) {
 
-                var orginalVal = $input.val(),
-                    compareVal = $form.find('input[data-compare="'+compareWith+'"]').val();
+                var orginalVal = $input.val();
+                var compareVal = $form.find('input[data-compare="'+ compareWith +'"]').val();
 
                 if (orginalVal !== compareVal) {
                     var msg = config.rules[compareWith].msg;
-                    createError($input, msg, event)
+                    createError($input, msg, event);
                 }
             }
 
@@ -180,10 +180,6 @@
                     .appendTo($container);
 
                 $container.addClass('validation-error');
-
-                /*$roots.animate({
-                    scrollTop: $input.offset().top
-                }, 999);*/
 
                 $errorCloseBtn.click(function() {
                     removeError($input);
@@ -216,6 +212,15 @@
 
             function unbindChange($input, event) {
                 $input.off(event + '.validate');
+            }
+
+            function scrollToFirstError() {
+
+                var $target = $form.find('.validation-error').first();
+
+                $roots.animate({
+                    scrollTop: $target.offset().top - 10
+                }, 999);
             }
         });
     }
