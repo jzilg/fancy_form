@@ -48,7 +48,8 @@
 	background: #FFF;
 }
 
-.btn-link:active {
+.btn-link:active,
+a:active .btn-link {
 	text-decoration: underline;
 }
 
@@ -61,7 +62,8 @@
 	background: #cb4335;
 }
 
-.btn.btn-filled.btn-red:active {
+.btn.btn-filled.btn-red:active,
+a:active .btn.btn-filled.btn-red {
 	background: #a7372b;
 }
 
@@ -70,7 +72,8 @@
 	color: #cb4335;
 }
 
-.btn.btn-outline.btn-red:active {
+.btn.btn-outline.btn-red:active,
+a:active .btn.btn-outline.btn-red {
 	background: #cb4335;
 	border-color: #cb4335;
 	color: #FFF;
@@ -84,7 +87,8 @@
 	background: #52be80;
 }
 
-.btn.btn-filled.btn-green:active {
+.btn.btn-filled.btn-green:active,
+a:active .btn.btn-filled.btn-green {
 	background: #3ea469;
 }
 
@@ -93,7 +97,8 @@
 	color: #52be80;
 }
 
-.btn.btn-outline.btn-green:active {
+.btn.btn-outline.btn-green:active,
+a:active .btn.btn-outline.btn-green {
 	background: #52be80;
 	border-color: #52be80;
 	color: #FFF;
@@ -107,7 +112,8 @@
 	background: #2e86c1;
 }
 
-.btn.btn-filled.btn-blue:active {
+.btn.btn-filled.btn-blue:active,
+a:active .btn.btn-filled.btn-blue {
 	background: #256c9c;
 }
 
@@ -116,7 +122,8 @@
 	color: #2e86c1;
 }
 
-.btn.btn-outline.btn-blue:active {
+.btn.btn-outline.btn-blue:active,
+a:active .btn.btn-outline.btn-blue {
 	background: #2e86c1;
 	border-color: #2e86c1;
 	color: #FFF;
