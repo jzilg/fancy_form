@@ -4,7 +4,6 @@
 @checkbox-color: #2980B9;
 @radio-color: #2980B9;
 
-
 .form-row + .form-row {
     margin-top: 10px;
 }
@@ -142,6 +141,7 @@
         width: 100%;
         border: 1px solid #DDD;
         background-color: transparent;
+        border-radius: 0;
     }
 
     & > input:focus,
@@ -155,10 +155,9 @@
 
 // Select
 
-select {
+.selectfield > select {
     appearance: none;
     padding: 1.313em 3.125em .25em .375em;
-    border-radius: 0;
     text-overflow: ellipsis;
 }
 

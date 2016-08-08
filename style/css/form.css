@@ -154,6 +154,7 @@
 	width: 100%;
 	border: 1px solid #DDD;
 	background-color: transparent;
+	border-radius: 0;
 }
 
 .textfield>input:focus,
@@ -163,12 +164,11 @@
 	border-color: #2980B9;
 }
 
-select {
+.selectfield>select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	padding: 1.313em 3.125em .25em .375em;
-	border-radius: 0;
 	text-overflow: ellipsis;
 }
 
