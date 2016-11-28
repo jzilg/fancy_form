@@ -2,7 +2,6 @@
     $.fn.validate = function(newConfig) {
         'use strict';
 
-        window.validator = [];
         var $roots = $('html, body');
         var config = {
             disableOnSubmit: true,
@@ -32,31 +31,47 @@
                 }
             }
         };
-        if (newConfig !== 'undefined') $.extend(true, config, newConfig);
+        if (newConfig != 'undefined') $.extend(true, config, newConfig);
 
         return this.each(function(idx) {
 
             var $form   = $(this);
+            var $inputs = $();
             var isValid = true;
-            var $inputs = $form.find(':input[data-validate]');
 
-            $form.data('isValid', false);
-
-            window.validator[idx] = {
-                jQuery: $form,
-                valide: false
+            var init = function() {
+                bindSubmit();
+                addInputs();
+                $form
+                    .data('isValid', false)
+                    .attr('novalidate', 'novalidate');
             };
 
-            $form.attr('novalidate', '');
+            var addInputs = function() {
 
-            $form.submit(function() {
+                $inputs = $inputs.add($form.find(':input[data-validate]'));
 
+                for (var ruleName in config.rules) {
+                    var rule = config.rules[ruleName];
+                    if (rule.selector) {
+                        var $input = $form.find(rule.selector);
+
+                        $input.attr('data-validate', ruleName);
+                        $inputs = $inputs.add($input);
+                    }
+                }
+            };
+
+            var bindSubmit = function() {
+                $form.submit(validateForm);
+            };
+
+            var validateForm = function() {
                 $inputs.each(function() {
                     validateInput($(this));
                 });
 
                 isValid = (!$form.find('.validation-error').length);
-
                 $form.data('isValid', isValid);
 
                 if (config.disableOnSubmit && isValid)
@@ -70,68 +85,75 @@
                 }
 
                 return isValid;
-            });
+            };
 
-            function validateInput($input) {
+            var validateInput = function($input) {
 
-                var rule    = $input.data('validate');
-                var compare = $input.data('compare');
-                var event   = 'change';
+                var ruleNames = $input.attr('data-validate');
+                var compare   = $input.attr('data-validate-compare');
+                var event     = 'change';
 
                 if ($input.is('[type="checkbox"]')) {
-                    validateCheckbox($input, rule, event);
+                    validateCheckbox($input, ruleNames, event);
                 } else if ($input.is('[type="radio"]')) {
-                    validateRadio($input, rule, event);
+                    validateRadio($input, ruleNames, event);
                 } else {
                     if ($input.is(':visible')) {
                         if (!$input.is('select')) event = 'input';
-                        validateTextInput($input, rule, event);
+                        validateTextInput($input, ruleNames, event);
                     }
                 }
 
                 if (compare) compareInputs($input, compare, event);
-            }
+            };
 
-            function validateTextInput($input, rule, event) {
+            var validateTextInput = function($input, ruleNames, event) {
 
                 var value = $input.val();
-                var rules = rule.split(' ');
+                ruleNames = ruleNames.split(' ');
 
-                for (var i in rules) {
-                    var rule = rules[i];
-                    var msg  = '';
+                for (var i = 0, ruleNamesLength = ruleNames.length; i < ruleNamesLength; i++) {
+                    var ruleName = ruleNames[i];
+                    var msg      = '';
 
-                    if (rule === '') rule = 'required';
+                    if (ruleName === '') ruleName = 'required';
+
+                    var rule = config.rules[ruleName];
 
                     if (!config.rules.required.regex.test(value)) {
-                        msg = (config.rules[rule].msg) ? config.rules[rule].msg : config.rules.required.msg;
+                        msg = (rule.msg) ? rule.msg : config.rules.required.msg;
                         createError($input, msg, event);
                         break;
-                    } else if (config.rules[rule].rule && !config.rules[rule].rule.regex.test(value)) {
-                        msg = config.rules[rule].rule.msg;
-                        createError($input, msg, event);
-                        break;
+                    } else if (rule.rule) {
+                        if (
+                            (rule.rule.regex && !rule.rule.regex.test(value)
+                        ) || (rule.rule.method && !rule.rule.method())
+                        ) {
+                            msg = rule.rule.msg;
+                            createError($input, msg, event);
+                            break;
+                        }
                     } else {
                         removeError($input, event);
                     }
                 }
-            }
+            };
 
-            function validateCheckbox($input, rule, event) {
+            var validateCheckbox = function($input, ruleName, event) {
 
-                if (rule === '') rule = 'checkbox';
+                if (ruleName === '') ruleName = 'checkbox';
 
                 if (!$input.is(':checked')) {
-                    var msg = config.rules[rule].msg;
+                    var msg = config.rules[ruleName].msg;
                     createError($input, msg, event);
                 } else {
                     removeError($input, event);
                 }
-            }
+            };
 
-            function validateRadio($input, rule, event) {
+            var validateRadio = function($input, ruleName, event) {
 
-                if (rule === '') rule = 'radio';
+                if (ruleName === '') ruleName = 'radio';
 
                 var isChecked = false;
                 var name      = $input.attr('name');
@@ -144,25 +166,25 @@
                 });
 
                 if (!isChecked) {
-                    var msg = config.rules[rule].msg;
+                    var msg = config.rules[ruleName].msg;
                     createError($input, msg, event);
                 } else {
                     removeError($input, event);
                 }
-            }
+            };
 
-            function compareInputs($input, compareWith, event) {
+            var compareInputs = function($input, compareWith, event) {
 
                 var orginalVal = $input.val();
-                var compareVal = $form.find('input[data-compare="'+ compareWith +'"]').val();
+                var compareVal = $form.find('input[data-validate-compare="'+ compareWith +'"]').val();
 
                 if (orginalVal !== compareVal) {
                     var msg = config.rules[compareWith].msg;
                     createError($input, msg, event);
                 }
-            }
+            };
 
-            function createError($input, msg, event) {
+            var createError = function($input, msg, event) {
 
                 removeError($input, event);
 
@@ -186,9 +208,9 @@
                 });
 
                 bindChange($input, event);
-            }
+            };
 
-            function removeError($input, event) {
+            var removeError = function($input, event) {
 
                 var $container = getContainer($input);
 
@@ -197,31 +219,32 @@
                     .find('.error-msg').remove();
 
                 unbindChange($input, event);
-            }
+            };
 
-            function getContainer($input) {
+            var getContainer = function($input) {
                 return ($input.is('[type="radio"]')) ? $input.closest('.radiobtns') : $input.parent();
-            }
+            };
 
-            function bindChange($input, event) {
-
+            var bindChange = function($input, event) {
                 $input.on(event + '.validate', function() {
                     validateInput($input);
                 });
-            }
+            };
 
-            function unbindChange($input, event) {
+            var unbindChange = function($input, event) {
                 $input.off(event + '.validate');
-            }
+            };
 
-            function scrollToFirstError() {
+            var scrollToFirstError = function() {
 
                 var $target = $form.find('.validation-error').first();
 
                 $roots.animate({
                     scrollTop: $target.offset().top - 10
                 }, 999);
-            }
+            };
+
+            init();
         });
-    }
+    };
 }(jQuery));
