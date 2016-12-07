@@ -106,8 +106,8 @@
                     msg: 'This is a TEST',
                     rule: {
                         msg: 'Method failed',
-                        method: function() {
-                            return false;
+                        method: function($input) {
+                            return true;
                         }
                     }
                 }

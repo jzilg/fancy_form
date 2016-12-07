@@ -5,6 +5,9 @@
         var $roots = $('html, body');
         var config = {
             disableOnSubmit: true,
+            scrollToFirstError: true,
+            errorClass: 'validation-error',
+            errorMsgClass: 'validation-error-msg',
             rules: {
                 required: {
                     msg: 'This is a required Field.',
@@ -35,21 +38,25 @@
 
         return this.each(function(idx) {
 
-            var $form   = $(this);
-            var $inputs = $();
-            var isValid = true;
+            var $form       = $(this);
+            var $inputs     = null;
+            var isValid     = true;
+            var isSubmitted = false;
 
             var init = function() {
-                bindSubmit();
-                addInputs();
-                $form
-                    .data('isValid', false)
-                    .attr('novalidate', 'novalidate');
+                if (!$form.hasClass('validate-submit-binded')) {
+                    bindSubmit();
+                    addInputs();
+                    $form
+                        .addClass('validate-submit-binded')
+                        .data('isValid', false)
+                        .attr('novalidate', 'novalidate');
+                }
             };
 
             var addInputs = function() {
 
-                $inputs = $inputs.add($form.find(':input[data-validate]'));
+                $inputs = $form.find(':input[data-validate]');
 
                 for (var ruleName in config.rules) {
                     var rule = config.rules[ruleName];
@@ -67,24 +74,27 @@
             };
 
             var validateForm = function() {
+
                 $inputs.each(function() {
                     validateInput($(this));
                 });
 
-                isValid = (!$form.find('.validation-error').length);
-                $form.data('isValid', isValid);
-
-                if (config.disableOnSubmit && isValid)
-                    $form.find('button, input[type="submit"]').attr('disabled', 'disabled');
-
-                if (isValid) {
-                    if (typeof config.onSuccess == 'function') config.onSuccess();
-                } else {
-                    if (typeof config.onFail == 'function') config.onFail();
-                    scrollToFirstError();
+                if (config.disableOnSubmit && isSubmitted) {
+                    return false;
                 }
 
-                return isValid;
+                isValid = (!$form.find('.' + config.errorClass).length);
+                $form.data('isValid', isValid);
+
+                if ($form.data('isValid')) {
+                    if (typeof config.onSuccess == 'function') config.onSuccess();
+                    isSubmitted = true;
+                } else {
+                    if (typeof config.onFail == 'function') config.onFail();
+                    if (config.scrollToFirstError) scrollToFirstError();
+                }
+
+                return $form.data('isValid');
             };
 
             var validateInput = function($input) {
@@ -104,7 +114,9 @@
                     }
                 }
 
-                if (compare) compareInputs($input, compare, event);
+                if (compare) {
+                    compareInputs($input, compare, event);
+                }
             };
 
             var validateTextInput = function($input, ruleNames, event) {
@@ -120,22 +132,26 @@
 
                     var rule = config.rules[ruleName];
 
-                    if (!config.rules.required.regex.test(value)) {
+                    // check required
+                    if (!config.rules.required.regex.test(value) || $input.find('option:selected').is(':disabled')) {
                         msg = (rule.msg) ? rule.msg : config.rules.required.msg;
                         createError($input, msg, event);
                         break;
-                    } else if (rule.rule) {
+                    }
+
+                    // check special rule
+                    if (rule.rule) {
                         if (
-                            (rule.rule.regex && !rule.rule.regex.test(value)
-                        ) || (rule.rule.method && !rule.rule.method())
+                            (rule.rule.regex && !rule.rule.regex.test(value)) ||
+                            (rule.rule.method && !rule.rule.method($input))
                         ) {
                             msg = rule.rule.msg;
                             createError($input, msg, event);
                             break;
                         }
-                    } else {
-                        removeError($input, event);
                     }
+
+                    removeError($input, event);
                 }
             };
 
@@ -191,17 +207,18 @@
                 var $container = getContainer($input);
 
                 var $errorCloseBtn = $('<span>',{
-                    class: 'remove-error-btn'
+                    class: 'remove-error-btn',
+                    role: 'button'
                 }).text('✖');
 
                 var $error = $('<div>', {
-                    class: 'error-msg'
+                    class: config.errorMsgClass
                 })
                     .append($errorCloseBtn)
                     .append(msg)
                     .appendTo($container);
 
-                $container.addClass('validation-error');
+                $container.addClass(config.errorClass);
 
                 $errorCloseBtn.click(function() {
                     removeError($input);
@@ -215,8 +232,8 @@
                 var $container = getContainer($input);
 
                 $container
-                    .removeClass('validation-error')
-                    .find('.error-msg').remove();
+                    .removeClass(config.errorClass)
+                    .find('.' + config.errorMsgClass).remove();
 
                 unbindChange($input, event);
             };
@@ -237,7 +254,7 @@
 
             var scrollToFirstError = function() {
 
-                var $target = $form.find('.validation-error').first();
+                var $target = $form.find('.' + config.errorClass).first();
 
                 $roots.animate({
                     scrollTop: $target.offset().top - 10

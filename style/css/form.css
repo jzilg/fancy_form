@@ -17,11 +17,6 @@
 	margin-top: 10px;
 }
 
-.error-msg,
-.hint {
-	margin-top: .313em;
-}
-
 .radiobtn {
 	display: inline-block;
 	position: relative;
@@ -187,7 +182,8 @@ textarea {
 	min-height: 10em;
 }
 
-.error-msg {
+.validation-error-msg {
+	margin-top: .313em;
 	color: #CB4335;
 }
 
@@ -204,6 +200,7 @@ textarea {
 }
 
 .hint {
+	margin-top: .313em;
 	color: #999;
 }
 
