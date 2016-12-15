@@ -63,12 +63,16 @@
                     if (rule.selector) {
                         var $input = $form.find(rule.selector);
 
+                        if ($input.attr('data-validate')) {
+                            ruleName = ruleName + ' ' + $input.attr('data-validate');
+                        }
+
                         $input.attr('data-validate', ruleName);
                         $inputs = $inputs.add($input);
                     }
                 }
             };
-
+            
             var bindSubmit = function() {
                 $form.submit(validateForm);
             };
